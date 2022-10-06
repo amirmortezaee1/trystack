@@ -1,17 +1,12 @@
-from typing import Union
-from fastapi import FastAPI
+from fastapi import APIRouter ,FastAPI
 from .config import settings
+from .resource.apiv1 import project
 
 # uvicorn app.trystack:app --reload
 app = FastAPI()
+router = APIRouter()
 
-@app.get("/")
-def read_root():
-     return{"Hello": "World"}
-     
-@app.get("/info")
-async def info():
-     return {
-          "env": settings.enviroment
-     }
+app.include_router(
+     project.router
+     )
 
