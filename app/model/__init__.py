@@ -1,2 +1,2 @@
-from .project import SessionLocal, engine
+from .project import SessionLocal, engine, Base
 from .model import *
