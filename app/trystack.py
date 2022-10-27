@@ -1,5 +1,4 @@
 from fastapi import FastAPI
-from .config import settings
 from .resource.apiv1 import project
 from app.model import engine
 from app.model import Base as ModelBase
@@ -7,7 +6,6 @@ from app.model import Base as ModelBase
 ModelBase.metadata.create_all(bind=engine)
 
 
-# uvicorn app.trystack:app --reload
 app = FastAPI()
 
 
@@ -16,7 +14,8 @@ app.include_router(
      )
 
 
-# sudo docker run -d --name  mysql  -p 3306:3306 -e MYSQL_ROOT_PASSWORD=test -e MYSQL_DATABASE=trystack mysql:8
+# uvicorn app.trystack:app --reload
+# docker run -d --name  mysql  -p 3306:3306 -e MYSQL_ROOT_PASSWORD=test -e MYSQL_DATABASE=trystack mysql:8
 # export TRYSTACK_API_DATABASE_URL=mysql+pymysql://root:test@localhost:3306/trystack
 # export TRYSTACK_API_DATABASE_URL=mysql+mysqlconnector://root:test@localhost:3306/trystack
 # docker exec -it mysql mysql -uroot -ptest --> show databases; use trystack; show tables
