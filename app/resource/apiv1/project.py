@@ -1,15 +1,10 @@
 
 from fastapi import APIRouter
 from app.controller.apiv1 import ProjectController
-from app.schema.apiv1 import ProjectCreate as ProjectSchema
+from app.schema.apiv1 import Project as ProjectSchema
 from app.dependencies import get_db
-
-
-
 from sqlalchemy.orm import Session
-from fastapi import Depends, HTTPException
-from app.crud.project import get_items, create_item, get_item_by_name
-
+from fastapi import Depends
 
 router = APIRouter(
      prefix="/api/v1",
@@ -18,47 +13,42 @@ router = APIRouter(
 
 
 
-@router.get("/", tags=["admin"], response_model=ProjectSchema)
-def get():
+@router.get("/", tags=["admin"], response_model=list[ProjectSchema])
+def get(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
      """
           GET /project --> create project
      """
-     return ProjectController().get_project()
+     return ProjectController().get_projects(skip, limit, db)
      
 
-@router.get("/{project_id}", tags=["users"])
-def get():
+@router.get("/{item_id}", tags=["users"], response_model=ProjectSchema)
+def get(item_id: str, db: Session = Depends(get_db)):
      """
           GET /project/id --> get project info
      """
-     return ProjectController().get_project()
+     return ProjectController().get_project(item_id, db)
 
-@router.post("/", tags=["admin"],response_model= ProjectSchema)
-def create(name: str, item: ProjectSchema, db: Session= Depends(get_db)):
+@router.post("/", tags=["admin"], response_model= ProjectSchema)
+def create(name: str, db: Session= Depends(get_db)):
      """
           POST /project --> create new project
           POST /projects/<project_id> --> not allowed
 
      """ 
-     # return ProjectController().create_project(name, item, db)
-     db_item = get_item_by_name(db , name=item.name)
-     print(db_item)
-     if db_item is not None: 
-          raise HTTPException(status_code=400, detail="The name already used.")
-     return create_item(name=name, db=db, item=item)
+     return ProjectController().create_project(name, db)
 
-@router.patch("/{project_id}", tags=["users"])
-def update(project_id):
+@router.patch("/{item_id}", tags=["users"])
+def update(item_id: str, status: int, db: Session= Depends(get_db)):
      """
-        PATCH /projects --> not allowed
+        PATCH /projects --> not allowedSession
         PATCH /projects/<project_id> --> delete projects
      """
-     return ProjectController.update_project(project_id)
+     return ProjectController().update_project(item_id, status, db)
 
-@router.delete("/{project_id}", tags=["users"])
-def delete(project_id):
+@router.delete("/{item_id}", tags=["users"])
+def delete(item_id: str , db: Session= Depends(get_db)):
      """
         DELETE /projects --> not allowed
         DELETE /projects/<project_id> --> delete projects
      """
-     return ProjectController.delete_project(project_id)
+     return ProjectController().delete_project(item_id, db)
