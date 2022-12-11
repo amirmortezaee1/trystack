@@ -1,4 +1,3 @@
-
 from fastapi import APIRouter
 from app.controller.apiv1 import ProjectController
 from app.schema.apiv1 import Project as ProjectSchema

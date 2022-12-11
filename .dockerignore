@@ -9,6 +9,8 @@ logs/
 .git
 *.md
 .cache
+fleet
+.fleet
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

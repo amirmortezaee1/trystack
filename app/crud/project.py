@@ -1,7 +1,6 @@
 from sqlalchemy.orm import Session
 from app.model import Project as ProjectModel
-from app.schema.apiv1 import ProjectCreate as ProjectSchema
-from fastapi import HTTPException
+from app.schema.apiv1 import ProjectCreate
 
 def get_item_by_id(db: Session, id: str):
     return db.query(ProjectModel).filter(ProjectModel.id == id).first()

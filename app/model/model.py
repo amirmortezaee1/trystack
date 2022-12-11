@@ -1,5 +1,4 @@
-from email.policy import default
-from sqlalchemy import Column,Integer, String, DateTime, VARCHAR, CHAR
+from sqlalchemy import Column, Integer, DateTime, VARCHAR
 from .project import Base
 from app.util import uuidgen
 from app.util import now

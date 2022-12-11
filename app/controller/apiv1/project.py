@@ -18,7 +18,7 @@ class ProjectController:
           if db_item is not None: 
                raise HTTPException(status_code=400, detail="The name already used.")
           return create_item(db=db, name=name)
-
+          
      def update_project(self ,item_id, status, db):
           db_item = get_item_by_id(db, item_id)
           if db_item is None:
@@ -27,7 +27,6 @@ class ProjectController:
           db_item.last_updated_at = now()
           db.commit()
           return f"status change to {status}"
-
 
      def delete_project(self , item_id, db):
           db_item= get_item_by_id(db, item_id)

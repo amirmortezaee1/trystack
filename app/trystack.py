@@ -12,7 +12,7 @@ app = FastAPI()
 app.include_router(
      project.router
      )
-
+ 
 
 # uvicorn app.trystack:app --reload
 # docker run -d --name  mysql  -p 3306:3306 -e MYSQL_ROOT_PASSWORD=test -e MYSQL_DATABASE=trystack mysql:8
@@ -22,3 +22,4 @@ app.include_router(
 # docker build -t wwwsqldesigner .
 # docker run -d -p 80:80 --rm --name wwwsqldesigner wwwsqldesigner:latest
 # docker run -d -p 8080:80 wwwsqldesigner
+# coverage run -m pytest
